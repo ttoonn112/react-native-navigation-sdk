@@ -458,6 +458,29 @@ public class NavModule extends ReactContextBaseJavaModule
   }
 
   @ReactMethod
+  public void setRouteToken(String routeToken) {
+      if (mNavigator == null) {
+          logDebugInfo("Navigator is not initialized.");
+          return;
+      }
+  
+      try {
+          // ใช้ CustomRoutesOptions กับ Route Token
+          CustomRoutesOptions customRoutesOptions = CustomRoutesOptions.builder()
+              .setRouteToken(routeToken)
+              .setTravelMode(TravelMode.DRIVING)
+              .build();
+  
+          // ใช้ Route Token กับ Navigator
+          pendingRoute = mNavigator.setDestinations(mWaypoints, customRoutesOptions);
+  
+          logDebugInfo("Route Token has been set successfully.");
+      } catch (Exception e) {
+          logDebugInfo("Error setting Route Token: " + e.getMessage());
+      }
+  }
+
+  @ReactMethod
   public void clearDestinations() {
     if (mNavigator != null) {
       mWaypoints.clear(); // reset waypoints
