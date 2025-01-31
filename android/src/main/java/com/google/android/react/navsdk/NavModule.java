@@ -55,6 +55,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import com.google.android.libraries.navigation.CustomRoutesOptions;   //Kiattichai
+import com.google.android.libraries.navigation.RoutingOptions;        //Kiattichai
 
 /**
  * This exposes a series of methods that can be called diretly from the React Native code. They have
@@ -458,27 +459,52 @@ public class NavModule extends ReactContextBaseJavaModule
         });
   }
 
-  // Kiattichai
+  //Kiattichai
   @ReactMethod
-  public void setRouteToken(String routeToken) {
-      if (mNavigator == null) {
-          logDebugInfo("Navigator is not initialized.");
-          return;
-      }
-  
-      try {
-          // ใช้ CustomRoutesOptions กับ Route Token
-          CustomRoutesOptions customRoutesOptions = CustomRoutesOptions.builder()
-              .setRouteToken(routeToken)
-              .build();
-  
-          // ใช้ Route Token กับ Navigator
+  public void setDestinationsWithRouteToken(
+      ReadableArray waypoints,
+      String routeToken,
+      @Nullable ReadableMap displayOptions) {
+    if (mNavigator == null || routeToken.isEmpty()) {
+      // TODO: HANDLE THIS
+      return;
+    }
+
+    pendingRoute = null; // reset pendingRoute.
+    mWaypoints.clear(); // reset waypoints
+
+    // Set up a waypoint for each place that we want to go to.
+    for (int i = 0; i < waypoints.size(); i++) {
+      Map map = waypoints.getMap(i).toHashMap();
+      createWaypoint(map);
+    }
+
+    try {
+        // ใช้ CustomRoutesOptions กับ Route Token
+        CustomRoutesOptions customRoutesOptions = CustomRoutesOptions.builder()
+            .setRouteToken(routeToken)
+            .setTravelMode(RoutingOptions.TravelMode.DRIVING)
+            .build();
+
+        // ใช้ Route Token กับ Navigator
+        if (displayOptions != null) {
+          pendingRoute = mNavigator.setDestinations(mWaypoints, customRoutesOptions, ObjectTranslationUtil.getDisplayOptionsFromMap(displayOptions.toHashMap()));
+        } else {
           pendingRoute = mNavigator.setDestinations(mWaypoints, customRoutesOptions);
-  
-          logDebugInfo("Route Token has been set successfully.");
-      } catch (Exception e) {
-          logDebugInfo("Error setting Route Token: " + e.getMessage());
-      }
+        }
+
+        logDebugInfo("Route Token has been set successfully.");
+    } catch (Exception e) {
+        logDebugInfo("Error setting Route Token: " + e.getMessage());
+    }
+
+    setOnResultListener(
+        new IRouteStatusResult() {
+          @Override
+          public void onResult(Navigator.RouteStatus code) {
+            sendCommandToReactNative("onRouteStatusResult", code.toString());
+          }
+        });
   }
 
   @ReactMethod
