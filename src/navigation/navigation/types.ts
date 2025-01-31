@@ -331,8 +331,10 @@ export interface NavigationController {
   ): Promise<void>;
 
   // Kiattichai
-  setRouteToken(
-    routeToken: string
+  setDestinationsWithRouteToken(
+    waypoints: Waypoint[],
+    routeToken: string,
+    displayOptions?: DisplayOptions
   ): Promise<void>;
 
   /**
