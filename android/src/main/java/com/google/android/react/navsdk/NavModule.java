@@ -55,7 +55,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import com.google.android.libraries.navigation.CustomRoutesOptions;   //Kiattichai
-import com.google.android.libraries.navigation.TravelMode;            //Kiattichai
 
 /**
  * This exposes a series of methods that can be called diretly from the React Native code. They have
@@ -471,7 +470,6 @@ public class NavModule extends ReactContextBaseJavaModule
           // ใช้ CustomRoutesOptions กับ Route Token
           CustomRoutesOptions customRoutesOptions = CustomRoutesOptions.builder()
               .setRouteToken(routeToken)
-              .setTravelMode(TravelMode.DRIVING)
               .build();
   
           // ใช้ Route Token กับ Navigator
