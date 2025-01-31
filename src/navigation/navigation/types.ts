@@ -330,6 +330,11 @@ export interface NavigationController {
     displayOptions?: DisplayOptions
   ): Promise<void>;
 
+  // Kiattichai
+  setRouteToken(
+    routeToken: string
+  ): Promise<void>;
+
   /**
    * Proceeds to the next destination or waypoint within a predefined route.
    * Assumes that there is an ongoing route with multiple waypoints.
