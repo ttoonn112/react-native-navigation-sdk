@@ -116,6 +116,13 @@ export const useNavigationController = (
         );
       },
 
+      //Kiattichai
+      setRouteToken: async (
+        routeToken: string
+      ) => {
+        return await NavModule.setRouteToken(routeToken);
+      },
+
       continueToNextDestination: async () => {
         return await NavModule.continueToNextDestination();
       },
