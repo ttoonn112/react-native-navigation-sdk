@@ -117,10 +117,12 @@ export const useNavigationController = (
       },
 
       //Kiattichai
-      setRouteToken: async (
-        routeToken: string
+      setDestinationsWithRouteToken: async (
+        waypoints: Waypoint[],
+        routeToken: string,
+        displayOptions?: DisplayOptions
       ) => {
-        return await NavModule.setRouteToken(routeToken);
+        return await NavModule.setDestinationsWithRouteToken(waypoints, routeToken, displayOptions);
       },
 
       continueToNextDestination: async () => {
