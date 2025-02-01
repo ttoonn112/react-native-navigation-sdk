@@ -56,6 +56,7 @@ import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import com.google.android.libraries.navigation.CustomRoutesOptions;   //Kiattichai
 import com.google.android.libraries.navigation.RoutingOptions;        //Kiattichai
+import java.util.Collections;                                         //Kiattichai
 
 /**
  * This exposes a series of methods that can be called diretly from the React Native code. They have
@@ -488,9 +489,9 @@ public class NavModule extends ReactContextBaseJavaModule
 
         // ใช้ Route Token กับ Navigator
         if (displayOptions != null) {
-          pendingRoute = mNavigator.setDestinations(mWaypoints, customRoutesOptions, ObjectTranslationUtil.getDisplayOptionsFromMap(displayOptions.toHashMap()));
+          pendingRoute = mNavigator.setDestinations(Collections.emptyList(), customRoutesOptions, ObjectTranslationUtil.getDisplayOptionsFromMap(displayOptions.toHashMap()));
         } else {
-          pendingRoute = mNavigator.setDestinations(mWaypoints, customRoutesOptions);
+          pendingRoute = mNavigator.setDestinations(Collections.emptyList(), customRoutesOptions);
         }
 
         logDebugInfo("Route Token has been set successfully.");
