@@ -489,9 +489,9 @@ public class NavModule extends ReactContextBaseJavaModule
 
         // ใช้ Route Token กับ Navigator
         if (displayOptions != null) {
-          pendingRoute = mNavigator.setDestinations(Collections.emptyList(), customRoutesOptions, ObjectTranslationUtil.getDisplayOptionsFromMap(displayOptions.toHashMap()));
+          pendingRoute = mNavigator.setDestinations(mWaypoints, customRoutesOptions, ObjectTranslationUtil.getDisplayOptionsFromMap(displayOptions.toHashMap()));
         } else {
-          pendingRoute = mNavigator.setDestinations(Collections.emptyList(), customRoutesOptions);
+          pendingRoute = mNavigator.setDestinations(mWaypoints, customRoutesOptions);
         }
 
         logDebugInfo("Route Token has been set successfully.");
