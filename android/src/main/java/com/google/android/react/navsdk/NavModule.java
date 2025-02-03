@@ -54,6 +54,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
+import android.content.Intent;
 
 /**
  * This exposes a series of methods that can be called diretly from the React Native code. They have
@@ -152,7 +153,19 @@ public class NavModule extends ReactContextBaseJavaModule
   }
 
   @ReactMethod
-  private void cleanup() {
+  public void exitApp() {
+      Activity activity = getCurrentActivity();
+      if (activity != null) {
+          Intent intent = new Intent(activity, MainActivity.class);
+          intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+          activity.startActivity(intent);
+          activity.finish();
+          System.exit(0);
+      }
+  }
+
+  @ReactMethod
+  public void cleanup() {
     stopUpdatingLocation();
     removeNavigationListeners();
     mWaypoints.clear();
